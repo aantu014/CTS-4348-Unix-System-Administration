@@ -8,7 +8,8 @@ cat aantu014.csv | cut -d "," -f1,2,3,4,5,6,7,8,9,10,11 | while IFS="," read use
 do 
   mkdir /home/"$os"/"$country" /home/"$os"/"$country"/"$username"
   touch /home/"$os"/"$country"/"$username"/about
-  groupadd "$color" "$fruits"
+  groupadd "$color" 
+  groupadd "$fruits"
  
    if [[ "$os" == "mac" ]]; then
     touch /home/"$os"/"$country"/"$username"/.DS_Store
