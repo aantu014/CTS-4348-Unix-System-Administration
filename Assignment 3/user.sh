@@ -7,12 +7,12 @@ do
   groupadd "$color" "$fruits"
  
    if [[ "$os" == "mac" ]]; then
-    touch /home/"$os"/"$country"/"$username" .DS_Store
+    touch /home/"$os"/"$country"/"$username"/.DS_Store
     echo "$first $last" >> /home/"$os"/"$country"/"$username"/about
     echo "$dob" >> /home/"$os"/"$country"/"$username"/about
     useradd -d /home/"$os"/"$country"/"$username" -G "$color" "$username"
   elif [[ "$os" == "windows" ]]; then
-    touch /home/"$os"/"$country"/"$username" Thumbs.db
+    touch /home/"$os"/"$country"/"$username"/Thumbs.db
     echo "$last $first" >> /home/"$os"/"$country"/"$username"/about
     echo "$shell" >> /home/"$os"/"$country"/"$username"/about
     useradd -d /home/"$os"/"$country"/"$username" -G "$fruits" "$username"
