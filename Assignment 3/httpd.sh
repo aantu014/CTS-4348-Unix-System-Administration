@@ -1,4 +1,4 @@
-dnf install httpd
+dnf install -y httpd
 systemctl enable httpd
 systemctl start httpd
 
