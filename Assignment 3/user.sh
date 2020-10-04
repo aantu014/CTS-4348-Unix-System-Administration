@@ -1,5 +1,5 @@
 firewall-cmd --permanent --zone=public --add-port=443/tcp
-firewall-cmd --permanent --zone=public --remove-service=http
+firewall-cmd --permanent --zone=public --add-service=http
 firewall-cmd --reload
 
 mkdir /home/mac /home/windows
