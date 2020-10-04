@@ -1,5 +1,6 @@
 dnf install httpd
 systemctl enable httpd
+systemctl start httpd
 
 firewall-cmd --permanent --zone=public --add-port=21/tcp
 firewall-cmd --permanent --zone=public --add-port=22/tcp
