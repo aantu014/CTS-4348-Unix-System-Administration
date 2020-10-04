@@ -1,3 +1,7 @@
+firewall-cmd --permanent --zone=public --add-port=443/tcp
+firewall-cmd --permanent --zone=public --remove-service=http
+firewall-cmd --reload
+
 mkdir /home/mac /home/windows
 
 cat aantu014.csv | cut -d "," -f1,2,3,4,5,6,7,8,9,10,11 | while IFS="," read username first last gender dob country color fruits os shell permission;
