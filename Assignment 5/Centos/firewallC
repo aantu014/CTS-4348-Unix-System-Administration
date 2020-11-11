@@ -1,0 +1,14 @@
+count=0
+def_port=8866
+cat aantu014.csv | cut -d "," -f8 | xargs -n1 | sort -u  | while IFS="," read f;
+do
+  port=$((def_port+$count))
+  maxp=8885
+  if [ "$port" -le "$maxp" ];then
+   firewall-cmd --permanent --zone=public --add-port="$port"/tcp
+  fi
+
+  count=$count+1
+
+done
+firewall-cmd --reload
