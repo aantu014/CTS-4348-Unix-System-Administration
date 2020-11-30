@@ -1,0 +1,5 @@
+Add this in options /etc/named.conf
+
+check-names master ignore; 
+check-names slave ignore; 
+check-names response ignore;

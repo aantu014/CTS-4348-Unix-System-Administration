@@ -1,0 +1,42 @@
+cat /root/aantu014.csv | cut -d "," -f1,2,3,4,5,6,7,8,9,10,11 | while IFS="," read username first last gender dob country color fruits os shell permission;
+do 
+  cat <<EOF> /root/commands.txt
+dn: uid= ${username},ou=people,dc=aantu014,dc=fiu,dc=edu
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+uid: ${username}
+cn: ${first} ${last}
+sn: ${last}
+mobile: ${gender}
+description: ${dob}
+title: ${shell}
+EOF
+  ldapadd -x -D cn=admin,dc=aantu014,dc=fiu,dc=edu -w 6121866 -f /root/commands.txt
+done
+
+count=0
+cat /root/aantu014.csv | cut -d "," -f7 | xargs -n1 | sort -u | while IFS="," read colorG;
+do
+  count=$((count+1))
+  cat <<EOF> /root/commands.txt
+dn: cn=${colorG},ou=group,dc=aantu014,dc=fiu,dc=edu
+objectClass: top
+objectClass: posixGroup
+gidNumber: ${count}
+EOF
+
+  ldapadd -x -D cn=admin,dc=aantu014,dc=fiu,dc=edu -w 6121866 -f /root/commands.txt
+
+  grep -w "${colorG}" /root/aantu014.csv | cut -d "," -f1 | while IFS="," read username;
+  do
+    cat <<EOF> /root/commands.txt
+dn: cn=${colorG},ou=group,dc=aantu014,dc=fiu,dc=edu
+changetype: modify
+add: memberuid
+memberuid: ${username}
+EOF
+
+    ldapadd -x -D cn=admin,dc=aantu014,dc=fiu,dc=edu -w 6121866 -f /root/commands.txt
+  done
+done

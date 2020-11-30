@@ -1,0 +1,47 @@
+cat /root/aantu014.csv | cut -d "," -f7 | xargs -n1 | sort -u | while IFS="," read colorG;
+do 
+  grep -w "${colorG}" /root/aantu014.csv | cut -d "," -f1,9 | while IFS="," read username os;
+  do
+    if [[ "$os" == "windows" ]]; then
+      cat <<EOF> /root/commands.txt
+dn: cn=${colorG},ou=group,dc=aantu014,dc=fiu,dc=edu
+changetype: modify
+delete: memberuid
+memberuid: ${username}
+EOF
+      ldapadd -x -D cn=admin,dc=aantu014,dc=fiu,dc=edu -w 6121866 -f /root/commands.txt
+    fi
+  done
+done
+
+count=144
+cat /root/aantu014.csv | cut -d "," -f11 | xargs -n1 | sort -u | while IFS="," read permissionG;
+do 
+  count=$((count+1))
+    cat <<EOF> /root/commands.txt
+dn: cn=${permissionG},ou=group,dc=aantu014,dc=fiu,dc=edu
+objectClass: top
+objectClass: posixGroup
+gidNumber: ${count}
+EOF
+
+  ldapadd -x -D cn=admin,dc=aantu014,dc=fiu,dc=edu -w 6121866 -f /root/commands.txt
+
+  grep -w "${permissionG}" /root/aantu014.csv | cut -d "," -f1,9 | while IFS="," read username os;
+  do 
+
+    if [[ "$os" == "mac" ]]; then
+      cat <<EOF> /root/commands.txt
+dn: cn=${permissionG},ou=group,dc=aantu014,dc=fiu,dc=edu
+changetype: modify
+add: memberuid
+memberuid: ${username}
+EOF
+
+      ldapadd -x -D cn=admin,dc=aantu014,dc=fiu,dc=edu -w 6121866 -f /root/commands.txt
+    fi
+  done
+done
+
+
+
