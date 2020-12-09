@@ -1,5 +1,8 @@
 rm -rf /etc/named/zones/*
 
+
+cat /root/aantu014.csv | cut -d "," -f7 | xargs -n1 | sort -u | while IFS="," read color;
+do
 cat << EOF>> /etc/named/zones/db.${color}.aantu014.cts4348.fiu.edu
 \$TTL    604800
 @       IN      SOA     ns1.cts4348.fiu.edu. aantu014.cts4348.fiu.edu. (
